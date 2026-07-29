@@ -1,26 +1,23 @@
 from functools import lru_cache
 class Solution:
     def stoneGame(self, piles: List[int]) -> bool:
+        n= len(piles)
+        dp = [[0 for _ in range(n+1)] for _ in range(n+1)]
 
-        @lru_cache(None)
-        def dfs(i,j):
-            if i < 0 or j >= len(piles) or i == j or i > j:
-                return 0 
+        for i in range(len(piles)-1,-1,-1):
+            for j in range(len(piles)):
+                if i < 0 or j >= len(piles) or i == j or i > j:
+                    dp[i][j] = 0 
+                dp[i][j] = max(piles[i]+dp[i+1][j],
+                                piles[j]+dp[i][j-1])
 
-
-            left = piles[i]
-            right = piles[j]
-
-
-            take_left = left + dfs(i+1,j)
-            take_right = right + dfs(i,j-1)
-
-            return max(take_left,take_right)
-
-        ans = dfs(0,len(piles)-1)
-        total = sum(piles)
-
-        if ans>total-ans:
-            return True 
+        if dp[0][0] > sum(piles)-dp[0][0]:
+            return True
         else:
             return False
+
+        
+
+
+
+
