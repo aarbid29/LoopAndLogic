@@ -1,5 +1,4 @@
-class Solution:
-    def minWindow(self, s: str, t: str) -> str:from collections import Counter, defaultdict
+from collections import Counter, defaultdict
 
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
@@ -31,4 +30,3 @@ class Solution:
                 l += 1
 
         return output
-        
