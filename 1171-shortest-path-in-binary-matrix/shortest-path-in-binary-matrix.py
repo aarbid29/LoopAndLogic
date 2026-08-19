@@ -1,34 +1,49 @@
 class Solution:
     def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
-        rows = len(grid)
-        cols = len(grid[0])
-
-        if grid[0][0] == 1 or grid[rows - 1][cols - 1] == 1:
+        row = len(grid)
+        col= len(grid[0])
+        if grid[0][0]!=0:
             return -1
-
-        directions = [(0,1),(0,-1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
-
+        if grid[row-1][col-1]!=0:
+            return -1
+        directions = [(1,0),(-1,0),(0,1),(0,-1),(1,-1),(-1,1),(-1,1),(1,1),(-1,-1)]
+        dq = deque()
+        dq.append((0,0))
+        heap = []
+        lvl = 0
         visited = set()
-        visited.add((0, 0))
-
-        dq = deque([(0, 0)])
-        level = 1
+        visited.add((0,0))
 
         while dq:
-            for _ in range(len(dq)):
-                r, c = dq.popleft()
+            lvl+=1
+            size = len(dq)
 
-                if r == rows - 1 and c == cols - 1:
-                    return level
+            for i in range(len(dq)):
+                cell_r , cell_c = dq.popleft()
 
-                for dr, dc in directions:
-                    nr, nc = r + dr, c + dc
+                if cell_r==row-1 and cell_c==col-1:
+                    return lvl
 
-                    if 0 <= nr < rows and 0 <= nc < cols:
-                        if grid[nr][nc] == 0 and (nr, nc) not in visited:
-                            visited.add((nr, nc))
-                            dq.append((nr, nc))
-
-            level += 1
-
+                for dr,dc in directions:
+                    nr= cell_r + dr
+                    nc = cell_c + dc
+                    if (nr,nc)in visited:
+                        continue
+                    if 0<=nr<row and 0<=nc<col:
+                    
+                        if grid[nr][nc]==0:
+                            visited.add((nr,nc))
+                            dq.append((nr,nc))
         return -1
+
+
+        
+
+
+
+
+
+        
+
+
+        
