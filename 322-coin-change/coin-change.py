@@ -6,20 +6,18 @@ class Solution:
             if summ == amount:
                 return 0
 
-            if summ > amount:
-                return float("inf")
-
-            if i == len(coins):
+            if summ > amount or i >= len(coins):
                 return float("inf")
 
             if (i, summ) in memo:
                 return memo[(i, summ)]
 
-            no_take = dfs(i + 1, summ)
-
             take = 1 + dfs(i, summ + coins[i])
 
-            memo[(i, summ)] = min(no_take, take)
+            no_take = dfs(i + 1, summ)
+
+            memo[(i, summ)] = min(take, no_take)
+
             return memo[(i, summ)]
 
         ans = dfs(0, 0)
