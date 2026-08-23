@@ -1,30 +1,30 @@
 class Solution:
     def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
-        N1, N2 = len(str1), len(str2)
 
-        @cache
-        def dp(i, j):
-            if i == N1:
-                return N2 - j
-            if j == N2:
-                return N1 - i
-            if str1[i] == str2[j]:
-                return 1 + dp(i + 1, j + 1)
-            else:
-                return 1 + min(dp(i + 1, j), dp(i, j + 1))
-        
-        @cache
-        def rec(i, j):
-            if i == N1:
-                return str2[j:]
-            if j == N2:
-                return str1[i:]
-            if str1[i] == str2[j]:
-                return str1[i] + rec(i + 1, j + 1)
-            else:
-                if dp(i + 1, j) < dp(i, j + 1):
-                    return str1[i] + rec(i + 1, j)
+        n = len(str2)
+
+        prev = [str2[j:] for j in range(n)]
+        prev.append("")
+
+        for i in range(len(str1) - 1, -1, -1):
+
+            curr = [""] * (n + 1)
+            curr[n] = str1[i:]
+
+            for j in range(n - 1, -1, -1):
+
+                if str1[i] == str2[j]:
+                    curr[j] = str1[i] + prev[j + 1]
+
                 else:
-                    return str2[j] + rec(i, j + 1)
-        
-        return rec(0, 0)        
+                    res1 = str1[i] + prev[j]
+                    res2 = str2[j] + curr[j + 1]
+
+                    if len(res1) <= len(res2):
+                        curr[j] = res1
+                    else:
+                        curr[j] = res2
+
+            prev = curr
+
+        return prev[0]
