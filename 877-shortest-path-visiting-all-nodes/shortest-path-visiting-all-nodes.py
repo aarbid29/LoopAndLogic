@@ -6,12 +6,11 @@ class Solution:
         target = (1 << n) - 1
 
         dq = deque()
-        best_distance = {}
+        visited = set()
 
         for i in range(n):
             mask = 1 << i
             dq.append((i, 0, mask))
-            best_distance[(i, mask)] = 0
 
         while dq:
             node, distance, mask = dq.popleft()
@@ -26,8 +25,7 @@ class Solution:
 
                 state = (neigh, new_mask)
 
-                if state in best_distance:
+                if state in visited:
                     continue
-
-                best_distance[state] = new_distance
+                visited.add(state)
                 dq.append((neigh, new_distance, new_mask))
