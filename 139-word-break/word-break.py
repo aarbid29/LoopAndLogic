@@ -1,23 +1,19 @@
-from functools import lru_cache
-
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+
+        word_set = set(wordDict)
         n = len(s)
-        dictt = set(wordDict)
 
-        @lru_cache(None)
-        def dfs(i, string):
-            if i == n:
-                return string == ""
+        dp = [False] * (n + 1)
+        dp[0] = True
 
-            new_substring = string + s[i]
+        for i in range(1, n + 1):
+            for word in word_set:
+                length = len(word)
 
-            if new_substring in dictt:
-                one = dfs(i + 1, "")
-                two = dfs(i + 1, new_substring)
+                if length <= i and dp[i - length]:
+                    if s[i - length:i] == word:
+                        dp[i] = True
+                        break
 
-                return one or two
-            else:
-                return dfs(i + 1, new_substring)
-
-        return dfs(0, "")
+        return dp[n]
