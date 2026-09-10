@@ -1,23 +1,23 @@
 from functools import lru_cache
+
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        n = len(s)
+        dictt = set(wordDict)
 
-        mp = defaultdict(list)
-        for word in wordDict:
-            mp[word[0]].append(word)
         @lru_cache(None)
-        def dfs(i):
-            if i == len(s):
-                return True
+        def dfs(i, string):
+            if i == n:
+                return string == ""
 
-            if s[i] in mp:
-                for word in mp[s[i]]:
-                    n = len(word)
+            new_substring = string + s[i]
 
-                    if s[i:i+n] == word:
-                        if dfs(i + n):
-                            return True
-                        
+            if new_substring in dictt:
+                one = dfs(i + 1, "")
+                two = dfs(i + 1, new_substring)
 
-            return False
-        return dfs(0)
+                return one or two
+            else:
+                return dfs(i + 1, new_substring)
+
+        return dfs(0, "")
