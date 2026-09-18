@@ -1,32 +1,42 @@
-from collections import Counter, defaultdict
-
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        mp1 = Counter(t)
+        # gather all info about string "t"
+        mp = Counter(t)
+        formed_check = len(mp)
+
+        # for window's mp
         mp2 = defaultdict(int)
         l = 0
-        have = 0
-        need = len(mp1)
         minn = float("inf")
-        output = ""
+        formed = 0
+        res = ""
+
         for r in range(len(s)):
-            char = s[r]
-            if char in mp1:
-                mp2[char] += 1
+            if s[r]not in mp:
+                continue
+            
+            mp2[s[r]]+=1
+            curr = s[r]
+            if mp2[curr]==mp[curr]:
+                formed+=1
+            
+            while formed == formed_check:
 
-                if mp2[char] == mp1[char]:
-                    have += 1
-
-            while have == need:
-                if r - l + 1 < minn:
-                    minn = r - l + 1
-                    output = s[l:r + 1]
-                left = s[l]
+                while l<r and s[l] not in mp:
+                    l+=1
                 
-                if left in mp1:
-                    mp2[left] -= 1
-                    if mp2[left] < mp1[left]:
-                        have -= 1
-                l += 1
+                length = r-l+1
+                if length< minn:
+                    res = s[l:r+1]
+                    minn = length 
 
-        return output
+                left = s[l]
+                mp2[left]-=1
+
+                if mp2[left]<mp[left]:
+                    formed-=1
+                
+                l+=1
+        return res
+
+
