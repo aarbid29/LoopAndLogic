@@ -10,7 +10,7 @@ class Solution:
 
         while nums:
 
-            if nums[0]>= k or len(nums)<2:
+            if nums[0]>= k :
                 return op
             else:
                 op+=1
