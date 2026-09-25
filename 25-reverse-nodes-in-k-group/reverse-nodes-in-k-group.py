@@ -4,63 +4,45 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
-
+    def reverseKGroup(self, head: ListNode | None, k: int) -> ListNode | None:
         n = 0 
         x = head
-        while x :
+        while x:
+            x = x.next
             n+=1
-            x =x.next
-
-        curr = head
-        prev = None
         dummy = ListNode()
         dummy.next = head
-        prev_group_end = dummy
+        tail = dummy 
+        prevgroupend = dummy
+        prev =prevgroupend
+        curr = head
         globall = 0
+        track = 0
 
         while curr:
-            if n-globall <k:
+            if n - globall < k:
                 break
-
             first = curr
-            prev = prev_group_end
-            track = 0
-
+            track = 0 
+            
             while track < k:
-                #reverse it 
+                track+=1
                 nextt = curr.next
                 curr.next = prev
                 prev = curr
                 curr = nextt
-                track+=1
-                globall +=1
+                globall+=1
             
+            prevgroupend.next = prev
+            prevgroupend = first 
             first.next = curr
-            prev_group_end.next = prev
-            prev_group_end = first
-        
+            prev = prevgroupend
+
         return dummy.next
-        
 
             
-
             
 
 
-
-
-
-
-
-
         
-
-        
-
-        
-        
-
-
-
         
