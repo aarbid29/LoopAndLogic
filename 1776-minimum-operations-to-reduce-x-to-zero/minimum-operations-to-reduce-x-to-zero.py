@@ -3,38 +3,31 @@ class Solution:
         xmin = min(nums)
         if xmin > x:
             return -1
-        
-        
-        summ = sum(nums)
-        if summ < x:
-            return -1
+        l = 0
         n = len(nums)
+        total = sum(nums)
+        if total < x:
+            return -1
+        mp = defaultdict(int)
+        mp[0]=1
+        op = -1
+        summ = sum(nums)
+        runningsum = 0   
+        length = float("inf")
 
-        needed = summ - x
-        #so we need a subarray of sum needed
-        l = 0 
-        runningsum = 0
-        minn = float("inf")
         for r in range(len(nums)):
-            curr = nums[r]
-            while  runningsum + curr > needed:
-                left = nums[l]
-                runningsum-=left
+            runningsum+= nums[r]
+
+            while l< n and total - runningsum < x:
+                left =nums[l]
+                runningsum -= left
                 l+=1
-            runningsum+= curr
-            if runningsum == needed:
-                lenght = r-l+1
-                diff = n -lenght
-                minn = min(minn , diff)
-        
-        if minn != float("inf"):
-            return minn
+            
+            if total-runningsum==x:
+                length = min(length , n- (r-l+1))
+        if length != float("inf"):
+            return length
         else:
             return -1
 
-
-            
-
-            
-
-
+        
