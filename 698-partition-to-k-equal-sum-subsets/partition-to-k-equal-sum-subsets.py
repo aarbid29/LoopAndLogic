@@ -1,23 +1,16 @@
 class Solution:
-    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
+    def canPartitionKSubsets(self, nums: list[int], k: int) -> bool:
         summ = sum(nums)
-
         if summ % k != 0:
             return False
-
         target = summ // k
         nums.sort(reverse=True)
-
         used = [False] * len(nums)
 
         def backtrack(start, total, groups):
             if groups == k:
                 return True
-
-            if total == target:
-                return backtrack(0, 0, groups + 1)
-
-            for i in range(start, len(nums)):
+            for i in range(start,len(nums)):
                 if used[i]:
                     continue
 
@@ -26,14 +19,28 @@ class Solution:
 
                 if total + nums[i] > target:
                     continue
-
                 used[i] = True
 
-                if backtrack(i + 1, total + nums[i], groups):
-                    return True
-
+                total+= nums[i]
+                if total == target:
+                    if backtrack(0 ,0 , groups+1):
+                        return True
+                
+                if total < target:
+                    if backtrack(i+1 , total ,groups):
+                        return True
+                total -= nums[i]
                 used[i] = False
-
             return False
 
-        return backtrack(0, 0, 0)
+        
+        return backtrack(0,0,0)
+        
+
+                
+
+                
+
+            
+
+        
