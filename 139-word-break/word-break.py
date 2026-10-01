@@ -1,19 +1,39 @@
 class Solution:
-    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+    def wordBreak(self, s: str, wordDict: list[str]) -> bool:
 
-        word_set = set(wordDict)
+        dictionary = set(wordDict)
+        count = 0 
         n = len(s)
+        @lru_cache(None)
+        def dfs(i ,substring):
+            if i == n:
+                return substring in dictionary or substring ==""
 
-        dp = [False] * (n + 1)
-        dp[0] = True
+            substring+=s[i]
 
-        for i in range(1, n + 1):
-            for word in word_set:
-                length = len(word)
+            build = dfs(i+1,substring)
 
-                if length <= i and dp[i - length]:
-                    if s[i - length:i] == word:
-                        dp[i] = True
-                        break
+            if substring in dictionary:
+                new = dfs(i+1,"")
+            else:
+                new = False
+            
 
-        return dp[n]
+            return new or build
+            
+        return dfs(0,"")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
