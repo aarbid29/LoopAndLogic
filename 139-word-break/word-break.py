@@ -1,39 +1,26 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: list[str]) -> bool:
 
-        dictionary = set(wordDict)
-        count = 0 
+        book = set(wordDict)
         n = len(s)
         @lru_cache(None)
-        def dfs(i ,substring):
+        def dfs(i):
             if i == n:
-                return substring in dictionary or substring ==""
+                return True
 
-            substring+=s[i]
-
-            build = dfs(i+1,substring)
-
-            if substring in dictionary:
-                new = dfs(i+1,"")
-            else:
-                new = False
+            #skip curr charater :
             
+            for j in range(i,n):
+                new = s[i:j+1]
 
-            return new or build
-            
-        return dfs(0,"")
-
-
-
-
-
-
-
+                if new in book:
+                    if dfs(j+1):
+                        return True
+            return False
+        
+        return dfs(0)
 
 
 
 
-
-
-
-
+        
