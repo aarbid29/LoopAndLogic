@@ -6,6 +6,7 @@ class Solution:
         stack = []
         stack.append((nums[0],0))
         for i, num in enumerate(nums[1:], start=1):
+            # nums[1:] creates a sliced array whose indexing starts at 0.
             if num < stack[-1][0]:
                 count+=1
                 if count ==2 :
