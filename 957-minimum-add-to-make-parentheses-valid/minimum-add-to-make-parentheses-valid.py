@@ -1,21 +1,19 @@
 class Solution:
     def minAddToMakeValid(self, s: str) -> int:
+
+
+        extraneeded = 0
         stack = []
 
-        needed = set()
-        count = 0
 
-        for i,char in enumerate(s):
+        for char in s:
 
             if char == "(":
-                stack.append(char)
-            else :
+                stack.append(char)            
+            else:
                 if stack:
+                    
                     stack.pop()
                 else:
-                    count+=1
-            
-        n =len(stack)
-        count+=n
-        return count
-        
+                    extraneeded+=1
+        return len(stack) + extraneeded
