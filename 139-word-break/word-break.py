@@ -3,18 +3,29 @@ class Solution:
         n = len(s)
         dictt = set(wordDict)
         @lru_cache(None)
-        def dfs(i):
+        def dfs(i,subs):
             if i == n:
-                return True
+                return subs==""
 
-            for j in range(i,n):
+            newsubs = subs+s[i]
+            t2 = dfs(i+1,newsubs)
+            t1 = False
+            if newsubs in dictt:
+                t1 = dfs(i+1 ,"")
+
+            return t1 or t2
+
+        return dfs(0,"")
+
+            
                 
-                new = s[i:j+1]
 
-                if new in dictt:
-                    if dfs(j+1):
-                        return True
-            return False
 
-        return dfs(0)
+
+
+
+
+
+
+
         
