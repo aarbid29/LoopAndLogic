@@ -22,8 +22,8 @@ class Solution:
         #         stack.append(char)
         # return remove
         count = 0
-        for char in reversed(s):
-            if char == "b" and stack and stack[-1] == "a":
+        for char in s:
+            if char == "a" and stack and stack[-1] == "b":
                 stack.pop()
                 count += 1
             else:
